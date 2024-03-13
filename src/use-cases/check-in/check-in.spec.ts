@@ -4,6 +4,8 @@ import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
 import { InMemoryCheckInRepository } from '@/repositories/in-memory/in-memory-checkin-repository'
 import { InMemoryGymsRepository } from '@/repositories/in-memory/in-memory-gym-repository'
 
+import { MaxDistanceError } from '../errors/max-distance-error'
+import { MaxNumberOfCheckInsError } from '../errors/max-numbers-of-check-ins-error'
 import { CheckInUseCase } from './check-in-use-case'
 
 let checkInRepository: InMemoryCheckInRepository
@@ -11,17 +13,17 @@ let gymRepository: InMemoryGymsRepository
 let sut: CheckInUseCase
 
 describe('Check-in Use Case', () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     checkInRepository = new InMemoryCheckInRepository()
     gymRepository = new InMemoryGymsRepository()
     sut = new CheckInUseCase(checkInRepository, gymRepository)
 
-    gymRepository.dataBase.push({
+    await gymRepository.create({
       id: 'gym-01',
       name: 'JS Gym',
       description: '',
       phone: '',
-      laditude: new Decimal(0),
+      latitude: new Decimal(0),
       longitude: new Decimal(0),
     })
 
@@ -61,7 +63,7 @@ describe('Check-in Use Case', () => {
           userLatitude: 0,
           userLongitude: 0,
         }),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(MaxNumberOfCheckInsError)
   })
 
   it('should be able to check in twice but in different days', async () => {
@@ -92,7 +94,7 @@ describe('Check-in Use Case', () => {
       name: 'JS Gym',
       description: '',
       phone: '',
-      laditude: new Decimal(-23.0096263),
+      latitude: new Decimal(-23.0096263),
       longitude: new Decimal(-43.4395738),
     })
 
@@ -103,6 +105,6 @@ describe('Check-in Use Case', () => {
         userLatitude: -23.0108663,
         userLongitude: -43.3132931,
       }),
-    ).rejects.toBeInstanceOf(Error)
+    ).rejects.toBeInstanceOf(MaxDistanceError)
   })
 })
