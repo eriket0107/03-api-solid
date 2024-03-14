@@ -39,7 +39,7 @@ describe('Search Gyms Use Case', async () => {
     ])
   })
 
-  it.only('should be able to fetch paginated gym search', async () => {
+  it('should be able to fetch paginated gym search', async () => {
     for (let i = 1; i <= 22; i++) {
       await gymRepository.create({
         name: `JS Gym ${i}`,

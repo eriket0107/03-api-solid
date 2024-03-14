@@ -89,7 +89,7 @@ describe('Check-in Use Case', () => {
   })
 
   it('should not be able to check in on distant gym', async () => {
-    gymRepository.dataBase.push({
+    gymRepository.create({
       id: 'gym-02',
       name: 'JS Gym',
       description: '',
