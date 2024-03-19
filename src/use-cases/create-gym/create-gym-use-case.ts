@@ -5,7 +5,7 @@ import { GymRepository } from '@/repositories/gym-repository'
 type CreateGymUseCaseRequest = {
   name: string
   description?: string | null
-  phone: string
+  phone?: string | null
   latitude: number
   longitude: number
 }
