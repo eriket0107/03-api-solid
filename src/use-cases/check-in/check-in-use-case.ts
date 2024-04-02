@@ -36,7 +36,6 @@ export class CheckInUseCase {
       throw new ResourceNotFoundError()
     }
 
-    // calcular distancia entre usuario e academia
     const distance = getDistanceBetweenCoordinates(
       { latitude: userLatitude, longitude: userLongitude },
       {
