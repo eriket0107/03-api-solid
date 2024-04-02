@@ -6,7 +6,7 @@ import { randomUUID } from 'node:crypto'
 import { PrismaClient } from '@prisma/client'
 import { Environment } from 'vitest'
 
-const generateDataBaseUrl = (schema: string) => {
+const generateDataBaseUrl = async (schema: string) => {
   if (!process.env.DATABASE_URL)
     throw new Error('Provide a DATABASE_URL environment variable.')
 
@@ -19,14 +19,12 @@ const generateDataBaseUrl = (schema: string) => {
 const prisma = new PrismaClient()
 
 export default <Environment>{
-  transformMode: 'web',
   name: 'prisma',
+  transformMode: 'web',
   async setup() {
     const schema = randomUUID()
-    const dataBaseURL = generateDataBaseUrl(schema)
-
+    const dataBaseURL = await generateDataBaseUrl(schema)
     process.env.DATABASE_URL = dataBaseURL
-
     execSync('npx prisma migrate deploy')
 
     return {

@@ -1,7 +1,5 @@
-import { describe } from 'node:test'
-
 import request from 'supertest'
-import { afterAll, beforeAll, expect, it } from 'vitest'
+import { afterAll, beforeAll, describe, expect, it } from 'vitest'
 
 import { app } from '@/app'
 

@@ -10,10 +10,10 @@ export const search = async (request: FastifyRequest, reply: FastifyReply) => {
   })
 
   const { page, q } = searchGymQuerySchema.parse(request.query)
+  console.log('>>>>>>>>>>>>>>>>>> q', q)
+  const searchGymUseCase = makeSearchGymsUseCase()
 
-  const createGymUseCase = makeSearchGymsUseCase()
-
-  const { gyms } = await createGymUseCase.execute({
+  const { gyms } = await searchGymUseCase.execute({
     page,
     query: q,
   })
